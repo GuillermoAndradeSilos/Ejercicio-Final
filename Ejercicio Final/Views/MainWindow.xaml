@@ -1,0 +1,66 @@
+﻿<Window x:Class="Ejercicio_Final.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ejercicio_Final"
+        xmlns:mvvm="clr-namespace:Ejercicio_Final.ViewModels"
+        xmlns:views="clr-namespace:Ejercicio_Final.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="DarkGray">
+    <Window.DataContext>
+        <mvvm:MainViewModel></mvvm:MainViewModel>
+    </Window.DataContext>
+    <Grid Margin="10" Background="Wheat">
+        <!--Contenido Lista/Principal-->
+        <Grid>
+            <DockPanel>
+                <!--Botones-->
+                <Label HorizontalAlignment="Center" DockPanel.Dock="Top" FontSize="25" Foreground="Black">PINACOTECAS MADRID</Label>
+                <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Bottom">
+                    <WrapPanel.Resources>
+                        <Style TargetType="Button">
+                            <Setter Property="FontSize" Value="15"></Setter>
+                            <Setter Property="Background" Value="CornflowerBlue"></Setter>
+                            <Setter Property="Foreground" Value="White"></Setter>
+                            <Setter Property="Padding" Value="5"></Setter>
+                            <Setter Property="Margin" Value="5,0,5,10"></Setter>
+                            <Setter Property="FontWeight" Value="DemiBold"></Setter>
+                        </Style>
+                    </WrapPanel.Resources>
+                    <Button Command="{Binding VistaCommand}" CommandParameter="Agregar">Agregar</Button>
+                    <Button Command="{Binding VistaCommand}" CommandParameter="Editar">Editar</Button>
+                    <Button Command="{Binding EliminarCommand}">Eliminar</Button>
+                </WrapPanel>
+                <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Foreground="Red" DockPanel.Dock="Bottom" Content="{Binding Error}"></Label>
+                <!--Pinacotecas-->
+                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Pinacotecas}" SelectedItem="{Binding Pinacoteca, Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel.Resources>
+                                    <Style TargetType="Label">
+                                        <Setter Property="FontSize" Value="15"></Setter>
+                                        <Setter Property="BorderThickness" Value="0,0,2,0"></Setter>
+                                        <Setter Property="BorderBrush" Value="PaleVioletRed"></Setter>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <!--ciudad, dirección y metros cuadrados, el nombre-->
+                                <Label Width="200" Content="{Binding Nombre}" Margin="5"/>
+                                <Label Width="150" Content="{Binding Ciudad}" Margin="5"/>
+                                <Label Width="200" Content="{Binding Direccion}" Margin="5"/>
+                                <Label Width="100" Content="{Binding MetrosCuadrados}" Margin="5"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </Grid>
+        <!--UserControls-->
+        <Grid>
+            <views:AgregarPinacoteca Visibility="{Binding Vista[0]}"></views:AgregarPinacoteca>
+            <views:EditarPinacoteca Visibility="{Binding Vista[1]}"></views:EditarPinacoteca>
+            <views:EliminarPinacoteca Visibility="{Binding Vista[2]}"></views:EliminarPinacoteca>
+        </Grid>
+    </Grid>
+</Window>
