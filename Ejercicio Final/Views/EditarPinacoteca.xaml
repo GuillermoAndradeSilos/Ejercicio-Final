@@ -25,7 +25,7 @@
                 <Button Command="{Binding VistaCommand}" CommandParameter="">Cancelar</Button>
             </WrapPanel>
             <Label VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" Foreground="Red" DockPanel.Dock="Bottom" Content="{Binding Error}"></Label>
-            <StackPanel Margin="0,25">
+            <StackPanel Margin="0,30">
                 <StackPanel.Resources>
                     <Style TargetType="Label">
                         <Setter Property="FontSize" Value="15"></Setter>
@@ -37,7 +37,7 @@
                     </Style>
                 </StackPanel.Resources>
                 <Label>Nombre de la pinacoteca:</Label>
-                <Label Content="{Binding PinacotecaCopia.Nombre}"></Label>
+                <Label Background="White" FontSize="15" Content="{Binding PinacotecaCopia.Nombre}"></Label>
                 <Label>Nombre de la ciudad:</Label>
                 <TextBox Text="{Binding PinacotecaCopia.Ciudad}"></TextBox>
                 <Label>Dirección de la pinacoteca:</Label>
