@@ -7,16 +7,19 @@
         xmlns:mvvm="clr-namespace:Ejercicio_Final.ViewModels"
         xmlns:views="clr-namespace:Ejercicio_Final.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="900" MinHeight="500" MinWidth="800" Background="DarkGray">
+        Title="MainWindow" Height="550" Width="900" MinHeight="500" MinWidth="800" >
     <Window.DataContext>
         <mvvm:MainViewModel></mvvm:MainViewModel>
     </Window.DataContext>
-    <Grid Margin="10" Background="Wheat">
+    <Grid Margin="10" >
+        <Grid.Background>
+            <ImageBrush ImageSource="/Images/PrincipalPina.jpg"></ImageBrush>
+        </Grid.Background>
         <!--Contenido Lista/Principal-->
-        <Grid>
+        <Grid Background="#50FFFFFF">
             <DockPanel>
                 <!--Botones-->
-                <Label HorizontalAlignment="Center" DockPanel.Dock="Top" FontSize="25" Foreground="Black">PINACOTECAS MADRID</Label>
+                <Label HorizontalAlignment="Center" DockPanel.Dock="Top" FontSize="25" Foreground="Black" FontWeight="Bold">PINACOTECAS MADRID</Label>
                 <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Bottom">
                     <WrapPanel.Resources>
                         <Style TargetType="Button">

@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:Ejercicio_Final.Views"
              xmlns:mvvm="clr-namespace:Ejercicio_Final.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="Wheat">
+             d:DesignHeight="450" d:DesignWidth="800" >
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Images/EditarPina.jpg"></ImageBrush>
+    </UserControl.Background>
     <Grid HorizontalAlignment="Center">
-        <DockPanel>
+        <DockPanel Background="#75FFFFFF">
             <Label DockPanel.Dock="Top" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="DemiBold">Editar Pinacoteca</Label>
             <WrapPanel Margin="0,15" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <WrapPanel.Resources>
@@ -36,13 +39,13 @@
                         <Setter Property="Margin" Value="0"></Setter>
                     </Style>
                 </StackPanel.Resources>
-                <Label>Nombre de la pinacoteca:</Label>
+                <Label FontWeight="DemiBold">Nombre de la pinacoteca:</Label>
                 <Label Background="White" FontSize="15" Content="{Binding PinacotecaCopia.Nombre}"></Label>
-                <Label>Nombre de la ciudad:</Label>
-                <TextBox Text="{Binding PinacotecaCopia.Ciudad}"></TextBox>
-                <Label>Dirección de la pinacoteca:</Label>
+                <Label FontWeight="DemiBold">Nombre de la ciudad:</Label>
+                <TextBox  Text="{Binding PinacotecaCopia.Ciudad}"></TextBox>
+                <Label FontWeight="DemiBold">Dirección de la pinacoteca:</Label>
                 <TextBox Text="{Binding PinacotecaCopia.Direccion}"></TextBox>
-                <Label>Metros cuadrados:</Label>
+                <Label FontWeight="DemiBold">Metros cuadrados:</Label>
                 <TextBox Text="{Binding PinacotecaCopia.MetrosCuadrados}"></TextBox>
             </StackPanel>
         </DockPanel>
