@@ -1,10 +1,12 @@
 ﻿using Ejercicio_Final.Models;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -25,7 +27,6 @@ agregar datos de la pinacoteca(no se repite el nombre)
 editar solo la ciudad, dirección y metros cuadrados, el nombre lo muestras pero no se puede editar
 eliminar pinacotecas
 haz tu propio diseño*/
-        private readonly PinacotecaContext cx;
         //La propiedad Vista nos movera entre UserControls
         public List<string> Vista { get; set; }
         public string Error { get; set; } = "";
@@ -40,7 +41,6 @@ haz tu propio diseño*/
         public ObservableCollection<Pinacoteca> Pinacotecas { get; set; } = new ObservableCollection<Pinacoteca>();
         public MainViewModel()
         {
-            cx = new PinacotecaContext();
             Vista = new List<string>();
             for (int i = 0; i < 3; i++)
             {
@@ -57,12 +57,14 @@ haz tu propio diseño*/
         {
             if (Pinacoteca != null)
             {
-                cx.Pinacoteca.Remove(Pinacoteca);
-                cx.SaveChanges();
-                MostrarPinacotecas();
+                //cx.Pinacoteca.Remove(Pinacoteca);
+                //cx.SaveChanges();
+                //MostrarPinacotecas();
+                Pinacotecas.Remove(Pinacoteca);
             }
             else
                 Error = "Favor de seleccionar la pinacoteca a eliminar";
+            GuardarPinacotecas();
             Vistas("");
             Actualizar();
         }
@@ -85,13 +87,14 @@ haz tu propio diseño*/
                             Error = "Favor de introducir solamente numeros en el apartado de metros cuadrados";
                         if (Pinacoteca.MetrosCuadrados <= 0)
                             Error = "Favor de dar los metros cuadrados de la pinacoteca";
-                        var validar = cx.Pinacoteca.FirstOrDefault(x => x.Nombre == Pinacoteca.Nombre);
+                        var validar = Pinacotecas.FirstOrDefault(x => x.Nombre == Pinacoteca.Nombre);
                         if (string.IsNullOrWhiteSpace(Error))
                             if (validar == null)
                             {
-                                cx.Pinacoteca.Add(Pinacoteca);
-                                cx.SaveChanges();
-                                MostrarPinacotecas();
+                                //cx.Pinacoteca.Add(Pinacoteca);
+                                //cx.SaveChanges();
+                                //MostrarPinacotecas();
+                                Pinacotecas.Add(Pinacoteca);
                                 Vistas("");
                             }
                             else
@@ -109,19 +112,11 @@ haz tu propio diseño*/
                             Error = "Favor de introducir solamente numeros en el apartado de metros cuadrados";
                         if (PinacotecaCopia.MetrosCuadrados <= 0)
                             Error = "Favor de dar los metros cuadrados de la pinacoteca";
-                        var original = cx.Pinacoteca.Where(x => x.Nombre == PinacotecaCopia.Nombre).FirstOrDefault();
-                        if (original != null)
+                        var original = Pinacotecas.Where(x => x.Nombre == PinacotecaCopia.Nombre).FirstOrDefault();
+                        if (original != null && string.IsNullOrWhiteSpace(Error))
                         {
-                            original.Nombre = PinacotecaCopia.Nombre;
-                            original.Direccion = PinacotecaCopia.Direccion;
-                            original.Ciudad = PinacotecaCopia.Ciudad;
-                            original.MetrosCuadrados = PinacotecaCopia.MetrosCuadrados;
-                        }
-                        if (string.IsNullOrWhiteSpace(Error))
-                        {
-                            cx.Pinacoteca.Update(original);
-                            cx.SaveChanges();
-                            MostrarPinacotecas();
+                            Pinacotecas.Remove(original);
+                            Pinacotecas.Add(PinacotecaCopia);
                             Vistas("");
                             Pinacoteca = new Pinacoteca();
                         }
@@ -130,6 +125,7 @@ haz tu propio diseño*/
                 {
                     Error = "Esto no deberia salir, si sale es null, regvisar bindings x.x";
                 }
+                GuardarPinacotecas();
                 Actualizar();
             }
             catch (Exception ex)
@@ -176,9 +172,17 @@ haz tu propio diseño*/
         public void MostrarPinacotecas()
         {
             Pinacotecas.Clear();
-            var pinas = cx.Pinacoteca.OrderBy(x => x.Nombre);
-            pinas.ForEachAsync(x => Pinacotecas.Add(x));
+            if(File.Exists("Pinacotecas.json"))
+            {
+                var json = File.ReadAllText("Pinacotecas.json");
+                Pinacotecas = JsonConvert.DeserializeObject<ObservableCollection<Pinacoteca>>(json);
+            }
             Actualizar();
+        }
+        public void GuardarPinacotecas()
+        {
+            var json = JsonConvert.SerializeObject(Pinacotecas);
+            File.WriteAllText("Pinacotecas.json", json);
         }
         //Nada, eso actualizar
         public void Actualizar(string? prop = null)
